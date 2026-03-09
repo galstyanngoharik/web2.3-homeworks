@@ -1,0 +1,48 @@
+\\\\\\\\\ HOISTING \\\\\\\\
+   *Declarations (variables and functions) being “moved” to the top of their respective scopes, which we call HOISTING.*
+JavaScript-ում ֆունկցիաները կարող են հայտարարվել տարբեր ձևերով, և hoisting-ը տարբեր կերպ է աշխատում։
+Նշեմ որ, declaration ու expression տարբերելու հեշտ ձևը ֆունկցիա բառի դիրքն է հայտարարության մեջ (ոչ թե պարզապես տող,
+այլ առանձին հայտարարություն): Եթե ֆունկցիան հայտարարության մեջ առաջինն է, ապա դա function declaration է: Հակառակ դեպքում՝ function expression:
+
+
+. function declaration -> function(){..}
+Ֆունկցիաները, որոնք հայտարարված են function declaration-ով, ամբողջությամբ hoisted են։
+Դրանք կարելի է կոչել նույնիսկ մինչև հայտարարությունը։
+. function expression -> (function(){..}())
+Միայն փոփոխականը hoisting-ի կարող է ենթարկվել, իսկ ֆունկցիան քանի որ դեռ չի ստեղծվել, կառաջացնի error։
+
+Arrow functions -> () => 
+Arrow functions աշխատում են ինչպես function expressions՝ միայն փոփոխականը hoisting-ի կարող է ենթարկվել։
+Function expressions և arrow functions հնարավոր չէ կանչել մինչև հայտարարելը։
+
+
+
+
+
+
+\\\\\\\\\\\ MEMORY MANAGEMENT \\\\\\\\\\
+. Memory life cycle
+Անկախ ծրագրավորման լեզվից, հիշողության կյանքի ցիկլը գրեթե միշտ նույնն է.
+
+1. Allocate the memory you need
+2. Use the allocated memory (read, write)
+3. Release the allocated memory when it is not needed anymore
+
+. Garbage collection 
+Ցածր մակարդակի լեզուներում մշակողը պետք է ձեռքով որոշի, թե ծրագրի որ պահին հատկացված հիշողությունը այլևս անհրաժեշտ չէ և ազատի այն։
+Որոշ բարձր մակարդակի ծրագրավորման լեզուներ, ինչպիսին է JavaScript-ը, օգտագործում են ավտոմատ հիշողության կառավարման մի ձև, որը հայտնի է որպես Garbage Collection(GC): Աղբի հավաքիչի նպատակն է վերահսկել հիշողության հատկացումները և որոշել, թե երբ հիշողության հատկացված բլոկը այլևս անհրաժեշտ չէ և ազատել այն:
+
+. Reference counting
+Սա ամենապարզ garbage collection ալգորիթմն է։ ըստ ալգորիթմի փոխարենը որոշելու՝ արդյոք օբյեկտը դեռ պետք է, թե ոչ, այն պարզապես ստուգում է՝ արդյոք այդ օբյեկտին այլ օբյեկտներ հղվում են (reference), թե ոչ։
+Եթե որևէ օբյեկտի վրա զրո հղում կա, ապա այդ օբյեկտը համարվում է «աղբ» (garbage) և կարող է հեռացվել հիշողությունից (collectible)։
+
+. Mark and Sweep
+Այս ալգորիթմը ենթադրում է, որ կա օբյեկտների որոշակի խումբ, որը կոչվում է roots (արմատներ)։
+JavaScript-ում root-ը գլոբալ օբյեկտն է (global object)։
+Ժամանակ առ ժամանակ garbage collector-ը սկսում է հենց այս roots-երից։ Այն գտնում է բոլոր այն օբյեկտները, որոնք հղում են ստանում այդ roots-երից, հետո՝ այն օբյեկտները, որոնց վրա հղում են անում արդեն գտնված օբյեկտները և այդպես շարունակ։
+Այսպիսով, սկսելով roots-երից, garbage collector-ը գտնում է բոլոր հասանելի (reachable) օբյեկտները, իսկ բոլոր անհասանելի (non-reachable) օբյեկտները հեռացվում են հիշողությունից։
+Այս ալգորիթմը բարելավված տարբերակ է նախորդ մեթոդի համեմատ:
+
+
+
+\\ Աղբյուրներ՝ MDN Web Docs, You Don't Know JS:Scope & Closures
