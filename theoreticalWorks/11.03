@@ -46,3 +46,38 @@ JavaScript-ում root-ը գլոբալ օբյեկտն է (global object)։
 
 
 \\ Աղբյուրներ՝ MDN Web Docs, You Don't Know JS:Scope & Closures
+////////////
+.prototype
+rest, spread,
+let o = {x: 1, y: {z: [false, null, ""]}}; // Define a test object
+let s = JSON.stringify(o);
+// s == '{"x":1,"y":{"z":[false,null,""]}}'
+let p = JSON.parse(s);
+// p == {x: 1, y: {z: [false, null, ""]}}
+object method is 
+let s = { x: 1, y: 1 }.toString();
+// s == "[object Object]"
+Math.hypot
+Object.assign
+Array.of(10); // [10]
+pop, shift, sparse, Array.from, Marh.floor, splice,,reduce, slice, copeWithin, apply, bind, map, reduce
+
+Calling reduce() on an empty array with no initial value argument causes a
+TypeError.
+Array.prototype.join.call("JavaScript", " ")
+// => "J a v a S c r i p t"
+JavaScript functions are parameterized
+If the return statement does not have an associated expression, the
+return value of the function is undefined.
+A method is nothing more than a JavaScript function that is stored in a property of an
+A higher-order function is a function that operates on functions, taking one or more
+functions as arguments and returning a new function
+
+Memoization, memoize()
+/////
+
+
+parseInt(".1")             // => NaN: це­лые чис­ла не мо­гут на­чи­нать­ся с "."
+parseFloat("$72.47");      // => NaN: чис­ла не мо­гут на­чи­нать­ся с "$"
+
+object.
