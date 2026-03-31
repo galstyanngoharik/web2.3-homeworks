@@ -9,7 +9,7 @@ return function cruied(...newargs) {
         return res;
     }
     return cruied;
-    }
+}
 }
 const sum = (a,b,c) => a + b + c;
 const product = (a,b,c,d) => a * b * c * d;
