@@ -5,7 +5,6 @@ let recursiveCalls = 0;
 
 function merge(left, right) {
     mergeOperations++;
-
     let i = 0;
     let j = 0;
     let res = [];
