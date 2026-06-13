@@ -6,20 +6,13 @@ class Node {
 }
 class Sll {
     #head;
+    #size = 0;
     constructor(head = null) {
         this.#head = head;
     };
     empty() { return this.#head === null; }
     size() {
-        if(!this.#head) { return 0; }
-        if(!this.#head.next) { return 1; }
-        let curr = this.#head;
-        let count = 1;
-        while(curr.next) {
-            count++;
-            curr = curr.next;
-        }
-        return count;
+        return this.#size;
     }
     clear() { this.#head = null; }
     front() {
@@ -49,19 +42,23 @@ class Sll {
     pushfront(value) {
         if(this.empty()) {
             this.#head = new Node(value);
+            this.#size++;
             return;
         }
         let newn = new Node(value);
         newn.next = this.#head;
         this.#head = newn;
+        this.#size++;
     }
     pushback(value) {
         if(this.empty()) {
             this.#head = new Node(value);
+            this.#size++;
             return;
         }
          if (this.#head.next === null) {
             this.#head.next = new Node(value);
+            this.#size++;
             return;
         }
         let curr = this.#head;
@@ -69,11 +66,13 @@ class Sll {
             curr = curr.next;
         }
         curr.next = new Node(value);
+        this.#size++;
     }
     popfront() {
         if(this.empty()) { throw new Error("linked list  is empty"); }
         let el = this.#head.value;
         this.#head = this.#head.next;
+        this.#size--;
         return el;
     }
     popback() {
@@ -81,6 +80,7 @@ class Sll {
         if (this.#head.next === null) {
             let res = this.#head.value;
             this.#head = null;
+            this.#size--;
             return res;
         }
         let curr = this.#head;
@@ -89,16 +89,18 @@ class Sll {
         }
         let res = curr.next.value;
         curr.next = null;
+        this.#size--;
         return res;
     }
     insert(index, value) {
         if(index >= this.size()) { throw new Error("invalid index"); }
          if(this.empty()) {
             this.#head = new Node(value);
+            this.#size++;
             return;
         }
         if(index === 0) { 
-            this.pushfront(value); 
+            this.pushfront(value);
             return;  
         }
         let curr = this.#head;
@@ -109,6 +111,7 @@ class Sll {
         }
         newn.next = curr.next;
         curr.next = newn;
+        this.#size++;
     }
     erase(index) {
         if(index >= this.size()) { throw new Error("invalid index"); }
@@ -125,6 +128,7 @@ class Sll {
         }
         let removed = curr.next.value;
         curr.next = curr.next.next;
+        this.#size--;
         return removed;
     }
     find(value) {
@@ -205,18 +209,18 @@ list.pushback(30);
 
 list.insert(1, 15);
 
-console.log(list.toArray());
+// console.log(list.toArray());
 // [10, 15, 20, 30]
 
-list.erase(2);
+ list.erase(2);
 
-console.log(list.toArray());
-// [10, 15, 30]
+// console.log(list.toArray());
+// // [10, 15, 30]
 
-list.reverse();
-list.erase(2);
+// list.reverse();
+// list.erase(2);
 
-console.log(list.toArray());
+// console.log(list.toArray());
 // for(let val of list) {console.log(val); }
-
+console.log(list.size())
 // [30, 15, 10]

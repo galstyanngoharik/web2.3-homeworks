@@ -7,19 +7,13 @@ class Node {
 
 class CyclicSinglyLinkedList {
     #head;
+    #size=0;
     constructor(head=null) {
         this.#head = head;
     };
     empty() { return this.#head === null; }
     size() {
-        if(!this.#head) { return 0; }
-        let curr = this.#head;
-        let count = 1;
-        while(curr.next !== this.#head) {
-            count++;
-            curr = curr.next;
-        }
-        return count;
+        return this.#size;
     }
     clear() { this.#head = null; }
     front() {
@@ -50,6 +44,7 @@ class CyclicSinglyLinkedList {
         if(this.empty()) {
             this.#head = new Node(value);
             this.#head.next = this.#head;
+            this.#size++;
             return;
         }
         let newn = new Node(value);
@@ -58,11 +53,13 @@ class CyclicSinglyLinkedList {
         curr.next = newn;
         newn.next = this.#head;
         this.#head = newn;
+        this.#size++;
     }
     pushBack(value) {
         if(this.empty()) {
             this.#head = new Node(value);
             this.#head.next = this.#head;
+            this.#size++;
             return;
         }
         let curr = this.#head;
@@ -71,6 +68,7 @@ class CyclicSinglyLinkedList {
         }
         curr.next = new Node(value);
         curr.next.next = this.#head;
+        this.#size++;
     }
     popFront() {
         if(this.empty()) { throw new Error("linked list  is empty"); }
@@ -81,6 +79,7 @@ class CyclicSinglyLinkedList {
     }
         this.#head = this.#head.next;
         curr.next = this.#head;
+        this.#size--;
         return el;
     }
     popBack() {
@@ -88,6 +87,7 @@ class CyclicSinglyLinkedList {
         if (this.#head.next === this.#head) {
             let el = this.#head.value;
             this.#head = null;
+            this.#size--;
             return el;
         }
         let curr = this.#head;
@@ -96,12 +96,14 @@ class CyclicSinglyLinkedList {
         }
         let el = curr.next.value;
         curr.next = this.#head;
+        this.#size--;
         return el;
     }
     insert(index, value) {
          if(this.empty()) {
             this.#head = new Node(value);
             this.#head.next = this.#head;
+            this.#size++;
             return;
         }
         if(index >= this.size()) { throw new Error("invalid index"); }
@@ -116,7 +118,7 @@ class CyclicSinglyLinkedList {
         }
         newn.next = curr.next;
         curr.next = newn;
-        
+        this.#size++;
     }
     erase(index) {
         if(index >= this.size()) { throw new Error("invalid index"); }
@@ -133,26 +135,29 @@ class CyclicSinglyLinkedList {
         }
         let removed = curr.next.value;
         curr.next = curr.next.next;
+        this.#size--;
         return removed;
     }
     find(value) {
         let curr = this.#head;
         let idx = 0;
-        while(curr.next !== this.#head) {
-             if(curr.value === value) {
-                return idx;
+        do {
+            if (curr.value === value) { 
+                return idx; 
             }
             idx++;
             curr = curr.next;
-        }
+        } while (curr !== this.#head);
         return -1;
     }
     contains(value) {
         let curr = this.#head;
-        while(curr.next !== this.#head) {
-            if(curr.value === value) { return true; }
-            curr = curr.next;
-        }
+            do {
+                if (curr.value === value) { 
+                    return true; 
+                }
+                curr = curr.next;
+            } while (curr !== this.#head);
         return false;
     }
     toArray() {
@@ -218,7 +223,9 @@ list.reverse();
 // let gen = list.entries();
 // console.log(gen.next().value)
 // console.log(gen.next().value)
-// console.log(list.contains(15))
+ console.log(list.find(23))
 console.log(list.toArray());
 // for(let val of list) {console.log(val); }
 //console.log(list.back());
+list.erase(0)
+console.log(list.size())

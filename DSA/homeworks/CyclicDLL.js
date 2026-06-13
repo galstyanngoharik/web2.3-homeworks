@@ -8,21 +8,14 @@ class Node {
 class cyclicDLL {
     #head;
     #tail;
+    #size=0;
     constructor(head=null, tail=null) {
         this.#head = head;
         this.#tail = tail;
     };
     empty() { return this.#head === null; }
     size() {
-        if(this.empty()) { return 0; }
-        if(!this.#head.next) { return 1; }
-        let curr = this.#head;
-        let count = 1;
-        while(curr.next !== this.#head) {
-            count++;
-            curr = curr.next;
-        }
-        return count;
+        return this.#size;
     }
     clear() { 
         this.#head = null; 
@@ -52,18 +45,22 @@ class cyclicDLL {
         if(this.empty()) {
             this.#head = newn;
             this.#tail = newn;
+            this.#size++;
             return;
         }
         newn.prev = this.#tail;
         this.#head.prev = newn;
         newn.next = this.#head;
         this.#head = newn;
+        this.#size++;
+
     }
     pushback(value) {
         let newn = new Node(value);
         if(this.empty()) {
             this.#head = newn;
             this.#tail = newn;
+            this.#size++;
             return;
         }
         newn.prev = this.#tail;
@@ -71,13 +68,14 @@ class cyclicDLL {
         this.#tail.next = newn;
         newn.next = this.#head;
         this.#tail = newn;
+        this.#size++;
     }
     popfront() {
         if(this.empty()) { throw new Error("linked list  is empty"); }
         let el = this.#head.value;
         this.#head = this.#head.next;
         this.#tail.next = this.#head;
-        
+        this.#size--;
         return el;
     }
     popback() {
@@ -86,6 +84,7 @@ class cyclicDLL {
         this.#tail = this.#tail.prev;
         this.#head.prev = this.#tail;
         this.#tail.next = this.#head;
+        this.#size--;
         return el;
     }
     insert(index, value) {
@@ -94,6 +93,7 @@ class cyclicDLL {
         if(this.empty()) {
             this.#head = newn;
             this.#tail = newn;
+            this.#size++;
             return;
         }
         if(index === 0) { 
@@ -111,6 +111,7 @@ class cyclicDLL {
         curr.prev = newn;
             this.#head.prev = this.#tail;
             this.#tail.next = this.#head;
+            this.#size++;
     }
     erase(index) {
         if(index >= this.size()) { throw new Error("invalid index"); }
@@ -127,26 +128,29 @@ class cyclicDLL {
         }
         let removed = curr.value;
         curr.next = curr.next.next;
+        this.#size--;
         return removed;
     }
     find(value) {
         let curr = this.#head;
         let idx = 0;
-        while(curr.next !== this.#head) {
-             if(curr.value === value) {
-                return idx;
-            }
-            idx++;
-            curr = curr.next;
+       do {
+        if (curr.value === value) {
+            return idx;
         }
+        curr = curr.next;
+        idx++;
+    } while (curr !== this.#head);
         return -1;
     }
     contains(value) {
         let curr = this.#head;
-        while(curr.next !== this.#head) {
-            if(curr.value === value) { return true; }
-            curr = curr.next;
+        do {
+        if (curr.value === value) {
+            return true;
         }
+        curr = curr.next;
+    } while (curr !== this.#head);
         return false;
     }
     toArray() {
@@ -223,7 +227,7 @@ list.pushback(6);
 //list.erase(3);
 list.reverse();
 console.log(list.toArray());
-//console.log(list.contains(4));
+console.log(list.find(2));
 console.log(list.size());
 // console.log(list.front()); 
 // console.log(list.back()); 

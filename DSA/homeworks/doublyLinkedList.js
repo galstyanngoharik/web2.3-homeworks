@@ -8,21 +8,14 @@ class Node {
 class DLL {
     #head;
     #tail;
+    #size = 0;
     constructor(head=null, tail=null) {
         this.#head = head;
         this.#tail = tail;
     };
     empty() { return this.#head === null; }
     size() {
-        if(this.empty()) { return 0; }
-        if(!this.#head.next) { return 1; }
-        let curr = this.#head;
-        let count = 1;
-        while(curr) {
-            count++;
-            curr = curr.next;
-        }
-        return count;
+       return this.#size;
     }
     clear() { this.#head = null; }
     front() {
@@ -49,28 +42,33 @@ class DLL {
         if(this.empty()) {
             this.#head = newn;
             this.#tail = newn;
+            this.#size++;
             return;
         }
         this.#head.next = this.#head;
         this.#head.prev = newn;
         this.#head = newn;
+        this.#size++;
     }
     pushback(value) {
         let newn = new Node(value);
         if(this.empty()) {
             this.#head = newn;
             this.#tail = newn;
+            this.#size++;
             return;
         }
         this.#tail.next = newn;
         newn.prev = this.#tail;
         this.#tail = newn;
+        this.#size++;
     }
     popfront() {
         if(this.empty()) { throw new Error("linked list  is empty"); }
         let el = this.#head.value;
         this.#head = this.#head.next;
         this.#head.prev = null;
+        this.#size--;
         return el;
     }
     popback() {
@@ -78,6 +76,7 @@ class DLL {
         let el = this.#tail.value;
         this.#tail = this.#tail.prev;
         this.#tail.next = null;
+        this.#size--;
         return el;
     }
     insert(index, value) {
@@ -86,6 +85,7 @@ class DLL {
         if(this.empty()) {
             this.#head = newn;
             this.#tail = newn;
+            this.#size++;
             return;
         }
         if(index === 0) { 
@@ -101,6 +101,7 @@ class DLL {
         newn.prev = curr.prev;
         curr.prev.next = newn;
         curr.prev = newn;
+        this.#size++;
     }
     erase(index) {
         if(index >= this.size()) { throw new Error("invalid index"); }
@@ -117,6 +118,7 @@ class DLL {
         }
         let removed = curr.value;
         curr.next = curr.next.next;
+        this.#size--;
         return removed;
     }
     find(value) {
@@ -204,10 +206,11 @@ list.pushback(20);
 list.pushback(30);
 
 list.insert(1, 15);
-//list.erase(2);
-list.reverse();
-//console.log(list.find(10))
-console.log(list.toArray());
-for(let val of list.revIterator()) {
-    console.log(val);
-}
+list.erase(2);
+// list.reverse();
+// //console.log(list.find(10))
+// console.log(list.toArray());
+// for(let val of list.revIterator()) {
+//     console.log(val);
+// }
+console.log(list.size())
