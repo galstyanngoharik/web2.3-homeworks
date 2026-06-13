@@ -205,7 +205,6 @@ class CyclicSinglyLinkedList {
         }
         curr.next = this.#head;
     }
-
 }
 const list = new CyclicSinglyLinkedList();
 
@@ -215,9 +214,11 @@ list.pushBack(30);
 list.pushFront(23);
 list.insert(1, 15);
 //console.log(list.erase(1))
-//list.reverse();
-// list.entries()
+list.reverse();
+// let gen = list.entries();
+// console.log(gen.next().value)
+// console.log(gen.next().value)
 // console.log(list.contains(15))
 console.log(list.toArray());
 // for(let val of list) {console.log(val); }
-console.log(list.back());
+//console.log(list.back());

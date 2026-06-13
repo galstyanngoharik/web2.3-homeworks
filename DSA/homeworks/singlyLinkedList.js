@@ -52,8 +52,8 @@ class Sll {
             return;
         }
         let newn = new Node(value);
-        res.next = this.#head;
-        this.#head = res;
+        newn.next = this.#head;
+        this.#head = newn;
     }
     pushback(value) {
         if(this.empty()) {
@@ -72,9 +72,9 @@ class Sll {
     }
     popfront() {
         if(this.empty()) { throw new Error("linked list  is empty"); }
-        let d = this.#head.value;
+        let el = this.#head.value;
         this.#head = this.#head.next;
-        return d;
+        return el;
     }
     popback() {
         if(this.empty()) { throw new Error("linked list  is empty"); }
@@ -148,7 +148,7 @@ class Sll {
         return false;
     }
     toArray() {
-        let arr = new Array(this.size());
+        let arr = [];
         let curr = this.#head;
         let i = 0;
         while(curr) {
@@ -214,9 +214,9 @@ console.log(list.toArray());
 // [10, 15, 30]
 
 list.reverse();
+list.erase(2);
 
 console.log(list.toArray());
 // for(let val of list) {console.log(val); }
 
 // [30, 15, 10]
-
