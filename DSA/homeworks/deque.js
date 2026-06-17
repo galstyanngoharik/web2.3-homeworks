@@ -1,4 +1,4 @@
-class BucketedDeque {
+    class Deque {
     #everyBucketsLength;
     #bucketSize;
     #buckets;
@@ -7,6 +7,7 @@ class BucketedDeque {
     #frontIndex;
     #backIndex;
     #size;
+    
     constructor(everyBucketsLength) {
         this.#init(everyBucketsLength);
     }
@@ -24,9 +25,9 @@ class BucketedDeque {
     }
 
     push_back(value) {
-        if(this.#backIndex > this.#everyBucketsLength) {
+        if(this.#backIndex >= this.#everyBucketsLength) {
             this.#backIndex = 0;
-            --this.#backBucket;
+            ++this.#backBucket;
             if(this.#backBucket >= this.#bucketSize) {
                 this._ensureBucket(false);
             }
@@ -37,9 +38,8 @@ class BucketedDeque {
 
     pop_front() {
         if(this.isEmpty()) { throw new RangeError("deque is empty"); }
-        let removeEl = this.#buckets[this.#frontBucket][this.#frontIndex];
-        this.size--;
-        ++this.#frontIndex;
+        let removeEl = this.#buckets[this.#frontBucket][this.#frontIndex++];
+        this.#size--;
         return removeEl;
     }
 
@@ -78,7 +78,7 @@ class BucketedDeque {
     }
 
     size() {
-        return this.this.#size;
+        return this.#size;
     }
 
     isEmpty() { 
@@ -131,7 +131,7 @@ class BucketedDeque {
             }
         }
         this.#buckets = newBuckets;
-        this.#bucketSize = newSize;
+        this.#bucketSize = newSize; 
     }
 
     _bucketIndex(globalIndex) {
@@ -145,17 +145,19 @@ class BucketedDeque {
         return {buckIdx, localIdx};
     }
 }
+export { Deque };
 
-const dq = new BucketedDeque(4);
-dq.push_front(0);
-dq.push_front(-1);
-dq.push_back(1);
-dq.push_back(2);
-dq.pop_back();
-console.log(dq.toArray());
-console.log(dq.at(1));
-for(let val of dq) {
-    console.log(val);
-}
+const dq = new Deque(4);
+// dq.push_front(0);
+// dq.push_front(-1);
+// dq.push_back(1);
+// dq.push_back(2);
+// dq.pop_back();
+// console.log(dq.toArray());
+// console.log(dq.at(1));
+// for(let val of dq) {
+//     console.log(val);
+// }
+//console.log(dq.size())
 
 
