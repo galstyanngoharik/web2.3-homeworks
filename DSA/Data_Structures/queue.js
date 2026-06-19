@@ -44,7 +44,7 @@ class Queue {
     return this.#size === 0;
   }
   isFull() {
-    return this.#size === this.#cap;
+    return this.#back === this.#cap;
   }
 
   clear() {
@@ -61,7 +61,6 @@ class Queue {
         res[j] = this.#data[i];
     }
     return res;
-  
   }
 
   [Symbol.iterator]() {
@@ -85,6 +84,8 @@ queue.dequeue();
 queue.enqueue(3);
 queue.enqueue(4);
 queue.enqueue(5);
+//queue.enqueue(5);
+
 
 console.log(queue.toArray());
 
