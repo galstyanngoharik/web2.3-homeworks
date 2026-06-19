@@ -1,14 +1,19 @@
-class DArray {
+export class DynamicArray {
     #size;
     #capacity;
     #arr;
-    constructor(initialCap) {
-        if(!Number.isInteger(initialCap)) { throw new Error("cap must be integer"); }
-        if(initialCap < 0) { throw new Error("cap must be pozitive number"); }
+    constructor(initialCap=8) {
+        if(!Number.isInteger(initialCap)) { throw new Error("capacity must be integer"); }
+        if(initialCap <= 0) { throw new Error("capacity must be pozitive number"); }
         this.#size = 0;
-        this.#capacity = initialCap;
+        this.#capacity = initialCap; 
         this.#arr = new Int32Array(initialCap);  
         this.CAP_EXPONENT = 2;
+    }
+    set(index, value) {
+        if(index < 0 || index >= this.#capacity) { throw new Error("Index out of bounds"); }
+        this.#arr[index] = value;
+        if (index >= this.#size) { this.#size = index + 1; } 
     }
     resize(newcap, fill=0) {
         let newarr = new Int32Array(newcap).fill(fill);
@@ -27,21 +32,28 @@ class DArray {
     popBack() {
         this.#size = this.#size-1;
     }
+    capacity() { return this.#capacity; }
+    set size(value) {
+        if(!Number.isInteger(value)) { throw new Error("value must be integer"); }
+        if(value < 0) { throw new Error("value must be pozitive number"); }
+        this.#size = value;
+    }
     erase(index) {
+        if (!Number.isInteger(index)) throw new Error("Index must be an integer.");
+        if (index < 0 || index >= this.#size) throw new Error("Index Error: Out of range.");
         for(let i = index; i < this.#size-1; ++i) {
             this.#arr[i] = this.#arr[i+1];
         }
-        this.#size--;        
+        --this.#size;        
     }
     at(index) {
-        if(index < 0 || index >= this.#size) { throw new Error("invalid index"); }
+        if(index < 0 || index >= this.#capacity) { throw new Error("invalid index"); }
         return this.#arr[index];
     }
     empty() { return this.#size === 0; }
     clear() { this.#size = 0; }
     front() { return this.#arr[0]; }
     back() { return this.#arr[this.#size-1]; }
-    capacity() { return this.#capacity; }
     [Symbol.iterator]() {
         let i = 0;
         return {
@@ -67,15 +79,17 @@ class DArray {
         return newarr;
     }
     insert(pos, value) {
-    this.at(pos);
-    if(this.#size === this.#capacity) {
-        this.resize(this.#capacity * this.CAP_EXPONENT);
-    }
+        if (!Number.isInteger(pos)) throw new Error("Index must be an integer.");
+        if (pos < 0 || pos >= this.#size) throw new Error("Index Error: Out of range.");
+        if (!Number.isInteger(value)) throw new Error("Value must be an integer.");
+        if(this.#size === this.#capacity) {
+            this.resize(this.#capacity * this.CAP_EXPONENT);
+        }
         for(let i = this.#size; i >= pos; i--) {
             this.#arr[i] = this.#arr[i-1];
         }
     this.#arr[pos] = value;
-    this.#size++;
+    ++this.#size;
     }
     swap(i=0, j=i+1) {
         this.at(i);
@@ -175,7 +189,7 @@ class DArray {
     }
 }
 
-const arr = new DArray(4);
+const arr = new DynamicArray(4);
 
 arr.pushBack(10);
 arr.pushBack(20);
@@ -183,10 +197,10 @@ arr.pushBack(30);
 
 arr.insert(1, 15);
 
-console.log(arr.toArray());
-// [10, 15, 20, 30]
+// console.log(arr.toArray());
+// // [10, 15, 20, 30]
 
-arr.swap(0, 3);
+// arr.swap(0, 3);
 
-console.log(arr.toArray());
-// [30, 15, 20, 10]
+// console.log(arr.toArray());
+// // [30, 15, 20, 10]
